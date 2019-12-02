@@ -25,7 +25,7 @@ public class Account {
 
             File tempFile = new File(Tools.getDirectorys(fullFileName));
             if (!tempFile.exists()) {
-                tempFile.mkdirs();
+                tempFile.mkdir();
             }
 
 

@@ -39,7 +39,7 @@ public class Tools {
 
     public static void writeDataToFile(String data, String fileName, String type) {
 
-       //ToDo: Add a method to write data from a url or file to anoother local file. !
+       //ToDo: Add a method to write data from a url or file to anoother local file.
 
     }
 }

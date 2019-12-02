@@ -5,30 +5,58 @@ import java.net.URL;
 
 public class Tools {
 
+    /**
+     * Get The Fileextension (suffix after dot)
+     * @param fileName The filename
+     */
     public static String getFileExtension(String fileName) {
 
         String dirParts[] = fileName.split("/");
-        return dirParts[dirParts.length - 1].substring(dirParts[dirParts.length - 1].length() - 4);
+        if(dirParts.length > 0){
+            return dirParts[dirParts.length - 1].substring(dirParts[dirParts.length - 1].length() - 4);
+        }else{
+            return fileName.substring(fileName.length()-4);
+        }
     }
 
+    /**
+     * Get the Filename without extension (suffix before dot)
+     * @param fileName the file for this operation.
+     * @return
+     */
     public static String getFilepreFix(String fileName) {
 
         String dirParts[] = fileName.split("/");
-        return dirParts[dirParts.length - 1].substring(0, dirParts[dirParts.length - 1].length() - 4);
+
+        if(dirParts.length > 0){
+            return dirParts[dirParts.length - 1].substring(0, dirParts[dirParts.length - 1].length() - 4);
+        }else {
+            return fileName.substring(0, fileName.length() -4);
+        }
     }
 
 
+    /**
+     * Get the directorystructure from a path with filename
+     * @param fileName the filenname where want to get the directorys
+     */
     public static String getDirectorys(String fileName) {
 
         String fileDir = "";
         String dirParts[] = fileName.split("/");
-        for (int i = 0; i < dirParts.length - 1; i++) {
-            fileDir = String.format("%s%s/", fileDir, dirParts[i]);
+        if(dirParts.length > 0) {
+            for (int i = 0; i < dirParts.length - 1; i++) {
+                fileDir = String.format("%s%s/", fileDir, dirParts[i]);
+            }
         }
-
         return fileDir;
     }
 
+    /**
+     * Check if the file exists in the dirctory
+     * @param filename the filename to check
+     * @param rootDir the directory which will append first for check (if it is in an subdirectory)
+     */
     public static boolean checkFileExist(String filename, String rootDir) {
 
         if (rootDir != null) {
@@ -38,6 +66,12 @@ public class Tools {
         return tempFileForCheck.exists();
     }
 
+    /**
+     * Write data to a file
+     * @param data the data as String or a weburl to a file (for download)
+     * @param fileName the filename after write or download it
+     * @param type file or url to define the operation.
+     */
     public static void writeDataToFile(String data, String fileName, String type) throws IOException {
 
         if (type.equals("file")) {

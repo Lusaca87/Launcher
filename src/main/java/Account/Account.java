@@ -1,7 +1,6 @@
 package Account;
 
 import Utils.Tools;
-
 import java.io.File;
 
 public class Account {
@@ -27,11 +26,6 @@ public class Account {
             if (!tempFile.exists()) {
                 tempFile.mkdirs();
             }
-
-
         }
     }
-
-
-
 }

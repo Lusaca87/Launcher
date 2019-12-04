@@ -3,6 +3,7 @@ package Account;
 import Utils.Tools;
 
 import org.json.JSONObject;
+
 import java.io.*;
 
 public class Account {
@@ -22,6 +23,7 @@ public class Account {
 
     /**
      * Check an Minecraft profile status.
+     *
      * @param accountName the useraccount / profile name
      * @throws IOException
      */
@@ -37,17 +39,25 @@ public class Account {
             }
 
             String dataAfterLogin = login("", "");
-            Tools.writeDataToFile(dataAfterLogin, fullFileName, "file");
+            if (!dataAfterLogin.isEmpty() && !checkErrorMessage(dataAfterLogin)) {
+                Tools.writeDataToFile(dataAfterLogin, fullFileName, "file");
+            }
         } else {
             String result = validateSession(accountName);
-            //TODO: If result is not an empty String a new accesstoken must be generatet (new Login required) - Make a solution.
+            if (checkErrorMessage(result)) {
+                //TODO: Generate an GUI or save the password encrypted in the folder as .dat (binary mode!)
+                //String dataAfterLogin = login("", "");
+                //if(!dataAfterLogin.isEmpty()){
+                //    Tools.writeDataToFile(dataAfterLogin, fullFileName, "file");
+                //}
+            }
         }
-
     }
 
     /**
      * Login with an Mohjang account (user and password) and generate a local json file with accesstoken and more.
-     * @param user the username (mostly an email)
+     *
+     * @param user     the username (mostly an email)
      * @param password the password
      */
     public String login(String user, String password) throws IOException {
@@ -67,6 +77,7 @@ public class Account {
 
     /**
      * Refresh a Minecraft Session, but the Accesstoken will be get invalied.
+     *
      * @param accountName the Accountname what we want to refresh.
      */
     public String refreshSession(String accountName) throws IOException {
@@ -88,6 +99,7 @@ public class Account {
 
     /**
      * Validate a Minecraft session. Try to keep the user logned in (needed for minecraft server)
+     *
      * @param accountName the useraccount / profile
      */
     public String validateSession(String accountName) throws IOException {
@@ -103,5 +115,19 @@ public class Account {
         postData.put("clientToken", oldData.getString("clientToken"));
 
         return Tools.sendJsonPostToUrl(API_BASE_URL + "/validate", postData);
+    }
+
+    /**
+     * Check if the String contains an 403 Code from Majong.
+     *
+     * @param result the string to check
+     */
+    private Boolean checkErrorMessage(String result) {
+
+        if (result.contains("code: 403 for URL: https://authserver.mojang.com")) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }

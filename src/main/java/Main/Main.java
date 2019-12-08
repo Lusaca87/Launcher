@@ -1,17 +1,11 @@
 package Main;
 
-import Account.Account;
-import Instances.Instances;
+import GUI.Gui;
+import javafx.application.Application;
 
 public class Main {
 
     public static void main(String[] args) {
-
-
-
-        Account account = new Account();
-        Instances mcInstance = Instances.getMCInstance();
-
-        mcInstance.testOutput();
+        Application.launch(Gui.class, args);
     }
 }

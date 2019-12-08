@@ -14,12 +14,7 @@ public class Instances {
     private Instances(){
 
     }
-
-
     public void testOutput(){
         System.out.println("SingleTon-Class created!");
     }
-
-
-
 }

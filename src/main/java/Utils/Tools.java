@@ -114,7 +114,7 @@ public class Tools {
     }
 
     /**
-     * Get the text input from a file and return it as stromg
+     * Get the text input from a file and return it as string
      * @param fileName the file what we want to read
      */
     public static String readFileIntoString(String fileName) {

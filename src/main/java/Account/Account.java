@@ -1,9 +1,9 @@
 package Account;
 
+import Utils.Encryption;
 import Utils.Tools;
 
 import org.json.JSONObject;
-
 import java.io.*;
 
 public class Account {
@@ -14,7 +14,7 @@ public class Account {
     public Account() {
 
         try {
-            checkAccountStatus("");
+            checkAccountStatus("ZockerDelta");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -38,18 +38,24 @@ public class Account {
                 tempFile.mkdirs();
             }
 
-            String dataAfterLogin = login("", "");
+            //temp variables for login
+            String username = "";
+            String password = "";
+
+            String dataAfterLogin = login(username, password);
             if (!dataAfterLogin.isEmpty() && !checkErrorMessage(dataAfterLogin)) {
                 Tools.writeDataToFile(dataAfterLogin, fullFileName, "file");
+                Encryption.encryptString(password, "accounts/data/credits.dat");
             }
         } else {
             String result = validateSession(accountName);
             if (checkErrorMessage(result)) {
-                //TODO: Generate an GUI or save the password encrypted in the folder as .dat (binary mode!)
-                //String dataAfterLogin = login("", "");
-                //if(!dataAfterLogin.isEmpty()){
-                //    Tools.writeDataToFile(dataAfterLogin, fullFileName, "file");
-                //}
+                JSONObject raw = new JSONObject(Tools.readFileIntoString(String.format("accounts/%s.json", accountName)));
+                JSONObject userMap = (JSONObject) raw.get("user");
+                String dataAfterLogin = login(userMap.getString("username"), Encryption.getPassword());
+                if(!dataAfterLogin.isEmpty()){
+                   Tools.writeDataToFile(dataAfterLogin, fullFileName, "file");
+                }
             }
         }
     }

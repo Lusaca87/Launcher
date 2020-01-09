@@ -14,7 +14,7 @@ public class Account {
     public Account() {
 
         try {
-            checkAccountStatus("ZockerDelta");
+            checkAccountStatus("");
         } catch (IOException e) {
             e.printStackTrace();
         }
